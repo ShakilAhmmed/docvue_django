@@ -1,0 +1,155 @@
+{% extends 'admin_panel/index.html' %}
+{% block title %}Home{% endblock title %}
+{% block main_content %}
+<div class="container-fluid">
+<!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#exampleModal">
+      Add New Projects
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add New Projects</h5>
+            <button type="button" style="margin-top: -4%;" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+         <form action="" method="POST">
+            {% csrf_token %}
+          <div class="modal-body">
+           <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="body">
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+
+                                    <div class="form-group">
+                                        <label for="{{form.project_name.id_for_label}}">
+                                            {{form.project_name.label}}
+                                        </label>
+                                        <div class="form-line">
+                                            {{form.project_name}}
+                                        </div>
+                                        <div class="text-danger" style="margin-top: 2%;">{{form.project_name.errors}}</div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="{{form.project_description.id_for_label}}">
+                                            {{form.project_description.label}}
+                                        </label>
+                                        <div class="form-line">
+                                            {{form.project_description}}
+                                        </div>
+                                        <div class="text-danger" style="margin-top: 2%;">{{form.project_description.errors}}</div>
+                                    </div>
+
+
+                                     <div class="form-group">
+                                        <label for="{{form.created_by.id_for_label}}">
+                                            {{form.created_by.label}}
+                                        </label>
+                                        <div class="form-line">
+                                            {{form.created_by}}
+                                        </div>
+                                        <div class="text-danger" style="margin-top: 2%;">{{form.created_by.errors}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </form>
+   </div>
+
+
+
+    <div class="row clearfix" style="margin-top: 5%;">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                PROJECTS DATA TABLE
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another action</a></li>
+                                        <li><a href="javascript:void(0);">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                    <thead>
+                                        <tr>
+                                            <th>Sl No</th>
+                                            <th>Project Name</th>
+                                            <th>Project Description</th>
+                                            <th>Created At</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for projects_data_value in projects_data%}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{projects_data_value.project_name}}</td>
+                                            <td>{{projects_data_value.project_description}}</td>
+                                            <td>{{projects_data_value.created_at}}</td>
+                                            <td style="display: inline-flex;">
+
+
+                                               <form action="" method="POST">
+                                                 {% csrf_token %}
+                                                 <input name="_method" type="hidden" value="DELETE">
+                                                 <input name="delete_pk" type="hidden" value="{{projects_data_value.pk}}">
+                                                <button class="btn btn-danger">Delete</button>
+                                               </form>
+
+
+                                             <a href="{% url 'my_projects_edit' projects_data_value.pk %}">
+                                                <button class="btn btn-info">Edit</button>
+                                             </a>
+
+
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+</div>
+{% endblock main_content %}

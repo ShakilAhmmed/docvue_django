@@ -1,0 +1,55 @@
+   {% load staticfiles %}
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="{% static 'admin_panel/plugins/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="{% static 'admin_panel/plugins/node-waves/waves.css' %}" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="{% static 'admin_panel/plugins/animate-css/animate.css' %}" rel="stylesheet" />
+
+    <!-- Morris Chart Css-->
+    <link href="{% static 'admin_panel/plugins/morrisjs/morris.css' %}" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="{% static 'admin_panel/css/style.css' %}" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="{% static 'admin_panel/css/themes/all-themes.css' %}" rel="stylesheet" />
+    <link href="{% static 'admin_panel/css/toastr.css' %}" rel="stylesheet" />
+
+
+    <!-- JQuery DataTable Css -->
+    <link href="{% static 'admin_panel/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css' %}" rel="stylesheet">
+<script type="text/javascript">
+	//=====ConsumerBehaviourChart=======
+        toastr.options = {
+           "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": true,
+		  "progressBar": false,
+		  "positionClass": "toast-top-right",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "100",
+		  "hideDuration": "1000",
+		  "timeOut": "10000",
+		  "extendedTimeOut": "20000",
+		  "showEasing": "linear",
+		  "hideEasing": "linear",
+		  "showMethod": "slideDown",
+		  "hideMethod": "slideUp"
+        };
+		{% if messages %}
+		{% for message in messages %}
+            toastr['{{ message.level_tag }}']('{{ message }}');
+        {% endfor %}
+        {% endif %}
+</script>

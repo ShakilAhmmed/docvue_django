@@ -1,0 +1,42 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>{% block title %}{% endblock title %}</title>
+    {% include 'layouts/_admin_css.html' %}
+</head>
+
+<body class="theme-red">
+    <!-- Page Loader -->
+    {% include 'layouts/_admin_overlay.html' %}
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    {% include 'layouts/_admin_search_bar.html' %}
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    {% include 'layouts/_admin_nav.html' %}
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        {% include 'layouts/_admin_sidebar.html' %}
+        <!-- #END# Left Sidebar -->
+        <!-- Right Sidebar -->
+        {% include 'layouts/_admin_right_sidebar.html' %}
+        <!-- #END# Right Sidebar -->
+    </section>
+
+    <section class="content">
+        {% block main_content %} {% endblock main_content %}
+    </section>
+
+    {% include 'layouts/_admin_js.html' %}
+</body>
+
+</html>

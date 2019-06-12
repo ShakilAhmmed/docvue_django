@@ -1,0 +1,93 @@
+ <!-- Jquery Core Js -->
+ {% load staticfiles %}
+    <script src="{% static 'admin_panel/plugins/jquery/jquery.min.js'%}"></script>
+
+    <script src="{% static 'admin_panel/js/toastr.js'  %}"></script>
+
+      <!-- Jquery DataTable Plugin Js -->
+    <script src="{% static 'admin_panel/plugins/jquery-datatable/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-datatable/extensions/export/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-datatable/extensions/export/jszip.min.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-datatable/extensions/export/pdfmake.min.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-datatable/extensions/export/vfs_fonts.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-datatable/extensions/export/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/jquery-datatable/extensions/export/buttons.print.min.js' %}"></script>
+    <script src="{% static 'admin_panel/js/pages/tables/jquery-datatable.js' %}"></script>
+
+
+
+
+    <!-- Bootstrap Core Js -->
+    <script src="{% static 'admin_panel/plugins/bootstrap/js/bootstrap.js'%}"></script>
+
+    <!-- Select Plugin Js -->
+    <script src="{% static 'admin_panel/plugins/bootstrap-select/js/bootstrap-select.js'%}"></script>
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="{% static 'admin_panel/plugins/jquery-slimscroll/jquery.slimscroll.js'%}"></script>
+
+    <!-- Waves Effect Plugin Js -->
+    <script src="{% static 'admin_panel/plugins/node-waves/waves.js'%}"></script>
+
+    <!-- Jquery CountTo Plugin Js -->
+    <script src="{% static 'admin_panel/plugins/jquery-countto/jquery.countTo.js' %}"></script>
+
+    <!-- Morris Plugin Js -->
+    <script src="{% static 'admin_panel/plugins/raphael/raphael.min.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/morrisjs/morris.js' %}"></script>
+
+    <!-- ChartJs -->
+    <script src="{% static 'admin_panel/plugins/chartjs/Chart.bundle.js' %}"></script>
+
+    <!-- Flot Charts Plugin Js -->
+    <script src="{% static 'admin_panel/plugins/flot-charts/jquery.flot.js' %}"></script>
+    <script src="{% static 'admin_panel/plugins/flot-charts/jquery.flot.resize.js'  %}"></script>
+    <script src="{% static 'admin_panel/plugins/flot-charts/jquery.flot.pie.js'  %}"></script>
+    <script src="{% static 'admin_panel/plugins/flot-charts/jquery.flot.categories.js'  %}"></script>
+    <script src="{% static 'admin_panel/plugins/flot-charts/jquery.flot.time.js'  %}"></script>
+
+    <!-- Sparkline Chart Plugin Js -->
+    <script src="{% static 'admin_panel/plugins/jquery-sparkline/jquery.sparkline.js'  %}"></script>
+
+    <!-- Custom Js -->
+    <script src="{% static 'admin_panel/js/admin.js'  %}"></script>
+    <script src="{% static 'admin_panel/js/pages/index.js'  %}"></script>
+
+    <!-- Demo Js -->
+    <script src="{% static 'admin_panel/js/demo.js'  %}"></script>
+
+
+<script type="text/javascript">
+	//=====ConsumerBehaviourChart=======
+        toastr.options = {
+           "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": true,
+		  "progressBar": false,
+		  "positionClass": "toast-top-right",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "100",
+		  "hideDuration": "1000",
+		  "timeOut": "10000",
+		  "extendedTimeOut": "20000",
+		  "showEasing": "linear",
+		  "hideEasing": "linear",
+		  "showMethod": "slideDown",
+		  "hideMethod": "slideUp"
+        };
+		{% if messages %}
+		{% for message in messages %}
+            toastr['{{ message.level_tag }}']('{{ message }}');
+        {% endfor %}
+        {% endif %}
+    </script>
+
+
+    <!-- Bootstrap Core Js -->
+
+
+
+
