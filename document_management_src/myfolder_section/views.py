@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
-from .forms import MyProjectsForm
-from .models import MyProjectsModel
+from .forms import MyProjectsForm, FolderForm
+from .models import MyProjectsModel, Folder
 
 
 # Create your views here.
@@ -47,3 +47,21 @@ def my_projects_edit(request, pk):
     }
 
     return render(request, 'admin_panel/my_folder_section/my_projects/my_projects_edit_form.html', context)
+
+
+def folder(request, pk=0):
+    folder_data = Folder.objects.filter(parent_folder=pk)
+    if request.method == "POST":
+        form = FolderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Folder Created Successfully')
+            return HttpResponseRedirect(reverse('folder', kwargs={'pk': pk}))
+    else:
+        form = FolderForm()
+    context = {
+        'form': form,
+        'parent_folder': pk,
+        'folder_data': folder_data
+    }
+    return render(request, 'admin_panel/my_folder_section/folder/folder.html', context)
