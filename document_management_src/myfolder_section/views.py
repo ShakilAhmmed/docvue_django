@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
-from .forms import MyProjectsForm, FolderForm
-from .models import MyProjectsModel, Folder
+from .forms import MyProjectsForm, FolderForm, FileForm
+from .models import MyProjectsModel, Folder, FileModel
 
 
 # Create your views here.
@@ -51,6 +51,8 @@ def my_projects_edit(request, pk):
 
 def folder(request, pk=0):
     folder_data = Folder.objects.filter(parent_folder=pk)
+    files = FileModel.objects.filter(parent_folder=pk)
+    file_form = FileForm()
     if request.method == "POST":
         form = FolderForm(request.POST)
         if form.is_valid():
@@ -61,7 +63,22 @@ def folder(request, pk=0):
         form = FolderForm()
     context = {
         'form': form,
+        'file_form': file_form,
         'parent_folder': pk,
-        'folder_data': folder_data
+        'folder_data': folder_data,
+        'files': files
     }
     return render(request, 'admin_panel/my_folder_section/folder/folder.html', context)
+
+
+def my_file(request):
+    #
+    if request.method == "POST":
+        file_form = FileForm(request.POST, request.FILES)
+        if file_form.is_valid():
+            file_save = file_form.save(commit=False)
+            folder_data = request.POST.get('parent_folder')
+            file_save.parent_folder = folder_data
+            file_save.save()
+            messages.success(request, 'File Added Successfully')
+        return HttpResponseRedirect(reverse('folder', kwargs={'pk': request.POST.get('parent_folder')}))

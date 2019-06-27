@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import MyProjectsModel, Folder
+from .models import MyProjectsModel, Folder, FileModel
 
 
 class MyProjectsForm(forms.ModelForm):
@@ -24,4 +24,16 @@ class FolderForm(forms.ModelForm):
             'parent_folder': forms.HiddenInput(attrs={'class': 'form-control'}),
             'created_by': forms.TextInput(attrs={'class': 'form-control'}),
 
+        }
+
+
+class FileForm(forms.ModelForm):
+    class Meta:
+        model = FileModel
+        fields = "__all__"
+        widgets = {
+            'file_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'file_description': forms.Textarea(attrs={'class': 'form-control'}),
+            'parent_folder': forms.HiddenInput(attrs={'class': 'form-control'}),
+            'created_by': forms.TextInput(attrs={'class': 'form-control'}),
         }

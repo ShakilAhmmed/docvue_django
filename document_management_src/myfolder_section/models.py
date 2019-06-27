@@ -42,3 +42,28 @@ class Folder(models.Model):
     class Meta:
         db_table = "my_folder"
 
+
+class FileModel(models.Model):
+    file_name = models.CharField(max_length=200, unique=True)
+    file_description = models.TextField()
+    file = models.FileField(upload_to='my_files/')
+    parent_folder = models.IntegerField(default=0)
+    created_by = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+
+    def soft_delete(self):
+        self.is_deleted = True
+        self.deleted_at = timezone.now()
+        self.save()
+
+    class Meta:
+        db_table = "my_file"
+
+
+class FileSearchTags(models.Model):
+    tags = models.CharField(max_length=20, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
