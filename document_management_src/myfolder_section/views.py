@@ -2,7 +2,8 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
 from .forms import MyProjectsForm, FolderForm, FileForm
-from .models import MyProjectsModel, Folder, FileModel
+from .models import MyProjectsModel, Folder, FileModel, FileSearchTags
+import os
 
 
 # Create your views here.
@@ -75,10 +76,50 @@ def my_file(request):
     #
     if request.method == "POST":
         file_form = FileForm(request.POST, request.FILES)
+        file = request.FILES.get('file')
         if file_form.is_valid():
             file_save = file_form.save(commit=False)
             folder_data = request.POST.get('parent_folder')
             file_save.parent_folder = folder_data
             file_save.save()
+            name, extension = os.path.splitext(file_save.file.name)
+            file_tags = FileSearchTags.objects.all()
+            if extension == ".txt":
+                txt = file_save.file.read().decode("utf-8").split()
+                prev_tags = []
+                for tags in file_tags:
+                    prev_tags.append(tags.tags)
+                for new_tags in txt:
+                    if new_tags not in prev_tags:
+                        new_search = FileSearchTags()
+                        new_search.tags = new_tags
+                        new_search.file = file_save
+                        new_search.save()
+
             messages.success(request, 'File Added Successfully')
         return HttpResponseRedirect(reverse('folder', kwargs={'pk': request.POST.get('parent_folder')}))
+
+
+def file_reader(file, file_save):
+    print("Process FIle")
+    name, extension = os.path.splitext(file.name)
+    file_tags = FileSearchTags.objects.all()
+    if extension == ".txt":
+        txt = file.read().decode("utf-8").split()
+        prev_tags = []
+        for tags in file_tags:
+            prev_tags.append(tags.tags)
+        print(prev_tags)
+        print(txt)
+        for new_tags in txt:
+            if new_tags not in prev_tags:
+                new_search = FileSearchTags()
+                new_search.tags = new_tags
+                new_search.file = file_save
+                new_search.save()
+            else:
+                print("Found")
+                # new_search = FileSearchTags()
+                # new_search.tags = new_tags
+                # new_search.file = file_save
+                # new_search.save()

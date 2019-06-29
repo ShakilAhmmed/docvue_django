@@ -65,5 +65,6 @@ class FileModel(models.Model):
 
 class FileSearchTags(models.Model):
     tags = models.CharField(max_length=20, unique=True)
+    file = models.ForeignKey(FileModel,on_delete=models.DO_NOTHING)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
