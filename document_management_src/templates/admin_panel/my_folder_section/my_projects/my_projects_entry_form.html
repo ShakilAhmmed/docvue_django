@@ -3,10 +3,11 @@
 {% block main_content %}
 <div class="container-fluid">
 <!-- Button trigger modal -->
+    {% if perms.myfolder_section.add_myprojectsmodel %}
     <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#exampleModal">
       Add New Projects
     </button>
-
+    {% endif %}
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -120,18 +121,19 @@
                                             <td>{{projects_data_value.created_at}}</td>
                                             <td style="display: inline-flex;">
 
-
+                                            {% if perms.myfolder_section.delete_myprojectsmodel %}
                                                <form action="" method="POST">
                                                  {% csrf_token %}
                                                  <input name="_method" type="hidden" value="DELETE">
                                                  <input name="delete_pk" type="hidden" value="{{projects_data_value.pk}}">
                                                 <button class="btn btn-danger">Delete</button>
                                                </form>
-
-
+                                            {% endif %}
+                                            {% if perms.myfolder_section.change_myprojectsmodel %}
                                              <a href="{% url 'my_projects_edit' projects_data_value.pk %}">
                                                 <button class="btn btn-info">Edit</button>
                                              </a>
+                                             {% endif %}
 
 
                                             </td>
