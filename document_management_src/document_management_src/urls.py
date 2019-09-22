@@ -17,8 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.staticfiles.templatetags.staticfiles import static as staticfiles
+from django.utils.translation import ugettext_lazy as _
+from material.admin.sites import site
+
+site.site_header = _('Document Management')
+site.site_title = _('Document Management')
+site.favicon = staticfiles('path/to/favicon')
 
 urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('backend', include('backend.urls')),
+                  path('admin/', include('material.admin.urls')),
+                  path('', include('login_panel.urls'))
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

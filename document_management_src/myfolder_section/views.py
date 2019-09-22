@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
 from .forms import MyProjectsForm, FolderForm, FileForm
@@ -7,6 +8,8 @@ import os
 
 
 # Create your views here.
+@login_required
+@permission_required('myfolder_section.add_myprojectsmodel')
 def my_projects(request):
     projects_data = MyProjectsModel.objects.filter(is_deleted=False).order_by('-id')
 
@@ -33,7 +36,8 @@ def my_projects(request):
     }
     return render(request, 'admin_panel/my_folder_section/my_projects/my_projects_entry_form.html', context)
 
-
+@login_required
+@permission_required('myfolder_section.change_myprojectsmodel')
 def my_projects_edit(request, pk):
     project_edit = get_object_or_404(MyProjectsModel, pk=pk)
     if request.method == "POST":
@@ -49,7 +53,7 @@ def my_projects_edit(request, pk):
 
     return render(request, 'admin_panel/my_folder_section/my_projects/my_projects_edit_form.html', context)
 
-
+@login_required
 def folder(request, pk=0):
     folder_data = Folder.objects.filter(parent_folder=pk)
     files = FileModel.objects.filter(parent_folder=pk)
@@ -71,7 +75,7 @@ def folder(request, pk=0):
     }
     return render(request, 'admin_panel/my_folder_section/folder/folder.html', context)
 
-
+@login_required
 def my_file(request):
     #
     if request.method == "POST":
@@ -100,26 +104,26 @@ def my_file(request):
         return HttpResponseRedirect(reverse('folder', kwargs={'pk': request.POST.get('parent_folder')}))
 
 
-def file_reader(file, file_save):
-    print("Process FIle")
-    name, extension = os.path.splitext(file.name)
-    file_tags = FileSearchTags.objects.all()
-    if extension == ".txt":
-        txt = file.read().decode("utf-8").split()
-        prev_tags = []
-        for tags in file_tags:
-            prev_tags.append(tags.tags)
-        print(prev_tags)
-        print(txt)
-        for new_tags in txt:
-            if new_tags not in prev_tags:
-                new_search = FileSearchTags()
-                new_search.tags = new_tags
-                new_search.file = file_save
-                new_search.save()
-            else:
-                print("Found")
-                # new_search = FileSearchTags()
-                # new_search.tags = new_tags
-                # new_search.file = file_save
-                # new_search.save()
+# def file_reader(file, file_save):
+#     print("Process FIle")
+#     name, extension = os.path.splitext(file.name)
+#     file_tags = FileSearchTags.objects.all()
+#     if extension == ".txt":
+#         txt = file.read().decode("utf-8").split()
+#         prev_tags = []
+#         for tags in file_tags:
+#             prev_tags.append(tags.tags)
+#         print(prev_tags)
+#         print(txt)
+#         for new_tags in txt:
+#             if new_tags not in prev_tags:
+#                 new_search = FileSearchTags()
+#                 new_search.tags = new_tags
+#                 new_search.file = file_save
+#                 new_search.save()
+#             else:
+#                 print("Found")
+#                 # new_search = FileSearchTags()
+#                 # new_search.tags = new_tags
+#                 # new_search.file = file_save
+#                 # new_search.save()
