@@ -2,14 +2,18 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, reverse, get_object_or_404
-from .forms import MyProjectsForm, FolderForm, FileForm
+from django.views import View
+
+from .forms import MyProjectsForm, FolderForm, FileForm, TeamForm
 from .models import MyProjectsModel, Folder, FileModel, FileSearchTags
 import os
+from rest_framework.views import APIView
+from rest_framework.renderers import TemplateHTMLRenderer
 
 
 # Create your views here.
 @login_required
-@permission_required('myfolder_section.add_myprojectsmodel')
+@permission_required('myfolder_section.view_myprojectsmodel')
 def my_projects(request):
     projects_data = MyProjectsModel.objects.filter(is_deleted=False).order_by('-id')
 
@@ -36,6 +40,7 @@ def my_projects(request):
     }
     return render(request, 'admin_panel/my_folder_section/my_projects/my_projects_entry_form.html', context)
 
+
 @login_required
 @permission_required('myfolder_section.change_myprojectsmodel')
 def my_projects_edit(request, pk):
@@ -52,6 +57,7 @@ def my_projects_edit(request, pk):
     }
 
     return render(request, 'admin_panel/my_folder_section/my_projects/my_projects_edit_form.html', context)
+
 
 @login_required
 def folder(request, pk=0):
@@ -74,6 +80,7 @@ def folder(request, pk=0):
         'files': files
     }
     return render(request, 'admin_panel/my_folder_section/folder/folder.html', context)
+
 
 @login_required
 def my_file(request):
@@ -103,6 +110,22 @@ def my_file(request):
             messages.success(request, 'File Added Successfully')
         return HttpResponseRedirect(reverse('folder', kwargs={'pk': request.POST.get('parent_folder')}))
 
+
+class Team(View):
+    form_class = TeamForm
+    template_name = 'admin_panel/my_folder_section/team/team.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial={'created_by': request.user})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Team Created Successfully')
+            return HttpResponseRedirect(reverse('team'))
+        return render(request, self.template_name, {'form': form})
 
 # def file_reader(file, file_save):
 #     print("Process FIle")

@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 from .validators import clean_project_name
+from django.contrib.auth.models import User
 
 
 class MyProjectsModel(models.Model):
@@ -65,6 +66,14 @@ class FileModel(models.Model):
 
 class FileSearchTags(models.Model):
     tags = models.CharField(max_length=20, unique=True)
-    file = models.ForeignKey(FileModel,on_delete=models.DO_NOTHING)
+    file = models.ForeignKey(FileModel, on_delete=models.DO_NOTHING)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class TeamModel(models.Model):
+    team_name = models.CharField(max_length=20, unique=True)
+    description = models.TextField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
